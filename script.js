@@ -1,0 +1,234 @@
+/* ============ DATA (mock) ============ */
+// Starting cities [lat, lon]
+const CITIES={Delhi:[28.61,77.21],Mumbai:[19.08,72.88],Bengaluru:[12.97,77.59],Indore:[22.72,75.86],Kolkata:[22.57,88.36],Chennai:[13.08,80.27],Hyderabad:[17.39,78.49],Pune:[18.52,73.86],Jaipur:[26.91,75.79],Ahmedabad:[23.02,72.57]};
+const MOODS=[["beach","🏖️","Beach"],["mountains","🏔️","Mountains"],["spiritual","🛕","Spiritual"],["adventure","🧗","Adventure"],["chill","🌿","Chill"]];
+const PACE=["Relaxed · 2 stops/day","Balanced · 3 stops/day","Packed · 4 stops/day"];
+// name, state, lat, lon, moods, mid-range hotel ₹/night (room), food ₹/day, emoji, gradient, places "name:x km:y km:entry fee"
+const D=[
+["Goa","Goa",15.5,73.83,"beach,chill",2200,700,"🏖️","#0ea5e9,#22d3ee","Baga Beach:0:10:0;Fort Aguada:-2:6:50;Chapora Fort:-3:17:0;Basilica of Bom Jesus:8:-2:0;Dudhsagar Falls:45:-8:400;Palolem Beach:6:-58:0"],
+["Andaman","Andaman & Nicobar",11.67,92.74,"beach,adventure",3200,800,"🐠","#06b6d4,#4f46e5","Cellular Jail:0:0:30;Corbyn’s Cove:3:-2:0;Ross Island:2:3:35;Radhanagar Beach:5:40:0;Elephant Beach:8:42:1500;Chidiya Tapu:-4:-18:0"],
+["Pondicherry","Puducherry",11.93,79.83,"beach,chill,spiritual",2400,600,"🏛️","#f59e0b,#ef4444","Promenade Beach:0:0:0;French Quarter:-1:0:0;Aurobindo Ashram:-1:-1:0;Auroville Matrimandir:9:6:0;Paradise Beach:5:-8:100;Serenity Beach:8:9:0"],
+["Alleppey","Kerala",9.49,76.33,"beach,chill",2600,650,"🛶","#10b981,#0ea5e9","Alleppey Beach:0:0:0;Backwater Houseboat Cruise:-2:3:1500;Marari Beach:-1:12:0;Krishnapuram Palace:-2:-14:20;Kumarakom Bird Sanctuary:20:15:100;Pathiramanal Island:15:18:300"],
+["Gokarna","Karnataka",14.55,74.32,"beach,spiritual,chill",1500,500,"🌅","#fb923c,#db2777","Mahabaleshwar Temple:0:0:0;Kudle Beach:0:-4:0;Om Beach:0:-6:0;Half Moon Beach:2:-8:0;Paradise Beach Trek:3:-10:0;Mirjan Fort:8:6:20"],
+["Manali","Himachal Pradesh",32.24,77.19,"mountains,adventure",2000,600,"🏔️","#38bdf8,#6366f1","Hadimba Temple:0:0:0;Mall Road:1:-1:0;Old Manali:-2:2:0;Vashisht Hot Springs:3:3:0;Solang Valley:12:7:600;Rohtang Pass:50:20:850"],
+["Munnar","Kerala",10.09,77.06,"mountains,chill",2200,600,"🍃","#22c55e,#0d9488","Tea Museum:0:0:150;Mattupetty Dam:8:5:100;Echo Point:12:8:0;Eravikulam National Park:-10:-5:200;Top Station:25:-2:0;Attukal Waterfalls:-8:-12:0"],
+["Darjeeling","West Bengal",27.04,88.26,"mountains,chill",1900,550,"🚂","#a78bfa,#0ea5e9","Batasia Loop:0:0:20;Ghoom Monastery:0:-3:0;HMI Mountaineering Institute:-1:1:100;Peace Pagoda:1:-1:0;Tiger Hill Sunrise:2:-8:0;Tea Estate Tour:-6:3:300"],
+["Leh","Ladakh",34.15,77.58,"mountains,adventure",2600,700,"🏜️","#f97316,#7c3aed","Leh Palace:0:0:25;Shanti Stupa:2:1:0;Hall of Fame:-1:-3:50;Magnetic Hill:-22:-6:0;Thiksey Monastery:18:-6:30;Pangong Lake:110:-100:400"],
+["Coorg","Karnataka",12.42,75.74,"chill,adventure,mountains",2300,600,"☕","#16a34a,#ca8a04","Raja’s Seat:0:0:10;Abbey Falls:4:2:50;Coffee Plantation Walk:-4:5:200;Dubare Elephant Camp:14:-10:100;Namdroling Monastery:20:-12:0;Tadiandamol Trek:-18:-22:300"],
+["Rishikesh","Uttarakhand",30.09,78.27,"spiritual,adventure,mountains",1600,500,"🧘","#14b8a6,#6366f1","Laxman Jhula:0:0:0;Ram Jhula:-1:-1:0;Triveni Ghat Aarti:-2:-2:0;Beatles Ashram:1:-2:150;Neer Garh Waterfall:3:-4:20;River Rafting:16:6:1200"],
+["Varanasi","Uttar Pradesh",25.32,83.01,"spiritual",1500,450,"🪔","#f59e0b,#be123c","Kashi Vishwanath Temple:0:0:0;Ganga Aarti Ghat:0.5:-0.5:0;Assi Ghat Boat Ride:-1:-3:300;Sarnath:9:4:25;Ramnagar Fort:-3:-4:50;BHU Campus:-2:-4:0"],
+["Amritsar","Punjab",31.63,74.87,"spiritual",1700,500,"🛕","#eab308,#ea580c","Golden Temple:0:0:0;Jallianwala Bagh:0:0:0;Partition Museum:.5:0:20;Gobindgarh Fort:-1:-1:50;Durgiana Temple:1:1:0;Wagah Border Ceremony:25:-3:0"],
+["Udaipur","Rajasthan",24.58,73.71,"chill,spiritual",2500,650,"🏰","#ec4899,#8b5cf6","City Palace:0:0:300;Lake Pichola Boat Ride:-.5:-1:400;Jagdish Temple:.3:.3:0;Saheliyon ki Bari:3:4:50;Fatehsagar Lake:1:5:0;Sajjangarh Monsoon Palace:-6:-4:50"]
+].map(r=>({name:r[0],st:r[1],lat:r[2],lon:r[3],moods:r[4].split(","),hotel:r[5],food:r[6],ic:r[7],g:r[8],
+  places:r[9].split(";").map((s,i)=>{const[n,x,y,f]=s.split(":");return{n,x:+x,y:+y,fee:+f,i}})}));
+
+/* ============ STATE (localStorage) ============ */
+const KEY="tripnest.v1";
+let S={budget:15000,days:4,from:"Delhi",mood:"beach",dest:null,tr:null,ho:null,pace:2,plan:null,searched:0};
+try{Object.assign(S,JSON.parse(localStorage.getItem(KEY)||"{}"))}catch(e){}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+
+/* ============ HELPERS ============ */
+const $=s=>document.querySelector(s), app=$("#app");
+const inr=n=>"₹"+Math.round(n).toLocaleString("en-IN");
+const hm=h=>{const m=Math.round(h*60);return Math.floor(m/60)+"h "+String(m%60).padStart(2,"0")+"m"};
+const cur=()=>D.find(d=>d.name===S.dest);
+const bestOf=(a,f)=>a.reduce((x,y)=>f(y)<f(x)?y:x);
+// Haversine distance in km
+const hav=(a,b,c,d)=>{const r=Math.PI/180,x=Math.sin((c-a)*r/2)**2+Math.cos(a*r)*Math.cos(c*r)*Math.sin((d-b)*r/2)**2;return 12742*Math.asin(Math.sqrt(x))};
+const info=d=>{const[la,lo]=CITIES[S.from],air=hav(la,lo,d.lat,d.lon);return{air,km:air*1.3}}; // road ≈ 1.3 × air
+
+/* ============ PRICING ENGINE (mock) ============ */
+// Transport options, one-way, per person
+function transports(d){
+  const{air,km}=info(d),T=[];
+  if(d.name!=="Andaman"&&d.name!=="Leh")T.push({id:"train",ic:"🚆",n:"Train · 3AC",p:km*1.9+100,h:km/55,r:4.2,site:"IRCTC",url:"https://www.irctc.co.in"});
+  if(d.name!=="Andaman")T.push({id:"bus",ic:"🚌",n:"Sleeper bus",p:km*1.3+150,h:km/42,r:3.8,site:"redBus",url:"https://www.redbus.in"});
+  if(air>450)T.push({id:"flight",ic:"✈️",n:"Flight",p:2300+air*3,h:2.5+air/650,r:4.3,site:"MakeMyTrip",url:"https://www.makemytrip.com/flights/"});
+  if(km<1400&&d.name!=="Andaman")T.push({id:"cab",ic:"🚕",n:"Cab · shared by 3",p:km*4.2,h:km/50,r:4.5,site:"Savaari",url:"https://www.savaari.com"});
+  return T;
+}
+// Three hotel tiers, price per night per person (twin sharing)
+function hotels(d){
+  return[["Backpacker stay",.45,3.9,2.1],["Comfort mid-range",1,4.2,.8],["Premium resort",2.3,4.6,4.5]].map(([n,m,r,km],i)=>
+    ({id:i,n,p:d.hotel*m/2,r,km,site:"Booking.com",url:"https://www.booking.com/searchresults.html?ss="+encodeURIComponent(d.name)}));
+}
+// "Best Value" = low price, weighted by duration and rating
+const tScore=t=>t.p*(1+t.h/24)/t.r, hScore=h=>h.p/(h.r*h.r);
+
+// Hidden Cost Calculator: real cost = ticket + stay + food + the extras people forget
+function cost(d,tr,ho){
+  const nights=Math.max(1,S.days-1),fees=d.places.reduce((s,p)=>s+p.fee,0);
+  const tix=tr.p*2,stay=ho.p*nights,food=d.food*S.days;
+  const hid=[["Local cabs & autos",300*S.days],["Entry fees & activities",fees],["Tips & small change",.05*(food+stay)],["Luggage & porters",200]];
+  if(tr.id==="cab")hid.push(["Parking & tolls",info(d).km*1.4]);
+  const hidden=hid.reduce((s,x)=>s+x[1],0);
+  return{tix,stay,food,hid,hidden,nights,total:tix+stay+food+hidden};
+}
+
+// Budget-First Search: rank by mood match, then fits-budget, then closeness to ~80% of budget
+function search(){
+  const rows=D.map(d=>{
+    const tr=transports(d).reduce((a,b)=>b.p<a.p?b:a),ho=hotels(d)[1];
+    return{d,c:cost(d,tr,ho),match:d.moods.includes(S.mood)?1:0};
+  });
+  const gap=r=>Math.abs(r.c.total-S.budget*.8);
+  search.cheapest=Math.min(...rows.map(r=>r.c.total));
+  // Only trips that fit the budget are returned; mood matches come first
+  return rows.filter(r=>r.c.total<=S.budget).sort((a,b)=>b.match-a.match||gap(a)-gap(b)).slice(0,5);
+}
+
+/* ============ VIEWS ============ */
+const empty=(t,m)=>`<div class="card" style="margin-top:20px"><h2>${t}</h2><p class="mut">${m}</p><a class="btn" href="#home">Start a search</a></div>`;
+
+function vHome(){
+  return `<section class="hero">
+    <span class="fl" style="--x:8%;--d:0s">🏖️</span><span class="fl" style="--x:84%;--d:1.2s">🏔️</span><span class="fl" style="--x:62%;--d:2.4s">🛕</span>
+    <h1>One budget. One screen. Your whole trip.</h1>
+    <p>Tell TripNest what you can spend. It finds matching places, compares rides and stays, and shows the real cost, hidden extras included.</p>
+    <form class="card form" id="sf">
+      <label>Budget (₹ per person)<input name="budget" type="number" min="3000" step="500" value="${S.budget}" required></label>
+      <label>Days<input name="days" type="number" min="2" max="14" value="${S.days}" required></label>
+      <label>Starting city<select name="from">${Object.keys(CITIES).map(c=>`<option${c===S.from?" selected":""}>${c}</option>`).join("")}</select></label>
+      <fieldset><legend>Mood</legend>${MOODS.map(([k,i,n])=>`<label class="chip"><input type="radio" name="mood" value="${k}"${k===S.mood?" checked":""}><span>${i} ${n}</span></label>`).join("")}</fieldset>
+      <button class="btn big">Find my 5 trips ✨</button>
+    </form>
+  </section><section id="res">${S.searched?resHTML():""}</section>`;
+}
+
+function resHTML(){
+  const R=search();
+  if(!R.length)return `<div class="card"><h2>No trip fits ${inr(S.budget)} for ${S.days} days</h2><p class="mut">The cheapest trip from ${S.from} costs about ${inr(search.cheapest)} in total. Raise the budget or reduce the days, then search again.</p></div>`;
+  return `<h2>${R.length} trip${R.length>1?"s":""} within ${inr(S.budget)} · ${S.days} days · from ${S.from}</h2>
+  ${R.length<5?`<p class="note">Only ${R.length} destination${R.length>1?"s":""} fit this budget. Cheapest overall: ${inr(search.cheapest)}.</p>`:""}
+  <div class="grid">${R.map(({d,c},i)=>{
+    const fit=c.total<=S.budget;
+    return `<article class="card dest" style="--i:${i}">
+      <div class="ban" style="background:linear-gradient(135deg,${d.g})" aria-hidden="true">${d.ic}</div>
+      <h3>${d.name} <small>${d.st}</small></h3>
+      <div>${d.moods.map(m=>`<span class="tag">${m}</span>`).join("")}</div>
+      <div class="tot">${inr(c.total)}<small> est. real total</small></div>
+      <div class="bar"><i class="${fit?"":"over"}" style="width:${Math.min(100,c.total/S.budget*100)}%"></i></div>
+      <p class="${fit?"ok":"warn"}" style="margin:0">${fit?"✔ Fits · "+inr(S.budget-c.total)+" spare":"Over budget by "+inr(c.total-S.budget)}</p>
+      <p class="mut" style="font-size:.88rem">🎟️ ${inr(c.tix)} · 🏨 ${inr(c.stay)} · 🍛 ${inr(c.food)} · <b>🕵️ hidden ${inr(c.hidden)}</b></p>
+      <button class="btn" data-pick="${d.name}">Compare &amp; plan →</button></article>`}).join("")}</div>
+  <p class="note">Estimates assume the cheapest ticket (round trip) and a mid-range twin-sharing stay. Adjust both on the Compare page.</p>`;
+}
+
+function vCompare(){
+  const d=cur();if(!d)return empty("Compare needs a destination","Run a Budget-First search on Home and pick a trip.");
+  const T=transports(d),H=hotels(d),bt=bestOf(T,tScore),bh=bestOf(H,hScore);
+  const tr=T.find(t=>t.id===S.tr)||bestOf(T,t=>t.p),ho=H.find(h=>h.id===S.ho)||H[1]; // defaults match the search estimate (cheapest ticket, mid-range stay)
+  S.tr=tr.id;S.ho=ho.id;save();
+  const c=cost(d,tr,ho),fit=c.total<=S.budget;
+  // One option card: shared by transport and hotels
+  const opt=(o,sel,best,attr,meta,det)=>`<div class="card opt${sel?" sel":""}" tabindex="0" role="radio" aria-checked="${sel}" data-${attr}="${o.id}">
+    ${best?`<span class="badge">🏆 Best Value</span>`:""}<div class="ic">${o.ic||"🏨"}</div><b>${o.n}</b>
+    <div class="pr">${inr(o.p)}<small> ${meta}</small></div><div class="mut">${det} · ⭐ ${o.r}</div>
+    <a class="btn ghost" target="_blank" rel="noopener" href="${o.url}">Book on ${o.site} ↗</a></div>`;
+  return `<h1>${d.ic} ${d.name}: compare in one screen</h1>
+  <p class="mut">From ${S.from} · ${S.days} days · budget ${inr(S.budget)}. Tap a card to choose it.</p>
+  <h2>Getting there</h2><div class="grid" role="radiogroup" aria-label="Transport">${T.map(t=>opt(t,t.id===tr.id,t===bt,"tr","one way / person","⏱ "+hm(t.h))).join("")}</div>
+  <h2 style="margin-top:22px">Where to stay</h2><div class="grid" role="radiogroup" aria-label="Hotels">${H.map(h=>opt(h,h.id===ho.id,h===bh,"ho","/ night / person","📍 "+h.km+" km from centre")).join("")}</div>
+  <h2 style="margin-top:22px">Real trip cost</h2>
+  <div class="card rows">
+    <div><span>🎟️ ${tr.n} (round trip)</span><b>${inr(c.tix)}</b></div>
+    <div><span>🏨 ${ho.n} × ${c.nights} nights</span><b>${inr(c.stay)}</b></div>
+    <div><span>🍛 Food × ${S.days} days</span><b>${inr(c.food)}</b></div>
+    <div><span><b>🕵️ Hidden costs</b> (not on any ticket)</span><b>${inr(c.hidden)}</b></div>
+    ${c.hid.map(h=>`<div class="sub"><span>${h[0]}</span><span>${inr(h[1])}</span></div>`).join("")}
+    <div class="tl"><span>Real total</span><span>${inr(c.total)}</span></div>
+    <p class="${fit?"ok":"warn"}" style="margin:8px 0 0">${fit?"✔ Within budget · "+inr(S.budget-c.total)+" to spare":"Over budget by "+inr(c.total-S.budget)+": try the bus or a backpacker stay"}. Ticket-only price would have shown just ${inr(c.tix)}.</p>
+  </div>
+  <p style="margin-top:16px"><button class="btn" data-go="itinerary">Build my itinerary →</button></p>`;
+}
+
+/* ----- Itinerary: group nearby places (nearest-neighbour), then chunk into days by pace ----- */
+const leg=(a,b)=>{const k=Math.hypot(a.x-b.x,a.y-b.y);return{k,m:Math.max(5,Math.round(k/25*60))}}; // ~25 km/h local speed
+function plan(d){
+  const P=S.plan;if(P&&P.dest===d.name&&P.pace===S.pace&&P.n===S.days)return;
+  const rest=d.places.slice(),order=[rest.shift()];
+  while(rest.length){const c=order[order.length-1];rest.sort((a,b)=>leg(c,a).k-leg(c,b).k);order.push(rest.shift())}
+  const per=Math.max(S.pace+1,Math.ceil(order.length/S.days)),days=[];
+  for(let i=0;i<S.days;i++)days.push(order.slice(i*per,(i+1)*per).map(p=>p.i));
+  S.plan={dest:d.name,pace:S.pace,n:S.days,days};save();
+}
+function daysHTML(d){
+  plan(d);
+  return S.plan.days.map((day,di)=>{
+    const ps=day.map(i=>d.places[i]);let km=0,min=0;
+    ps.forEach((p,k)=>{if(k){const l=leg(ps[k-1],p);km+=l.k;min+=l.m}});
+    const items=ps.map((p,k)=>`${k?`<li class="leg">🚗 ${leg(ps[k-1],p).m} min · ${leg(ps[k-1],p).k.toFixed(1)} km</li>`:""}
+      <li class="stop" draggable="true" data-d="${di}" data-k="${k}"><span class="grip" aria-hidden="true">⋮⋮</span>
+      <div><b>${p.n}</b><small>${p.fee?"Entry/activity "+inr(p.fee):"Free"}</small></div>
+      <span class="mv"><button data-mv="-1" aria-label="Move ${p.n} earlier">▲</button> <button data-mv="1" aria-label="Move ${p.n} later">▼</button></span></li>`).join("");
+    return `<section class="card day" data-day="${di}" style="--i:${di}"><h3>Day ${di+1}<small>${ps.length?ps.length+" stops · "+km.toFixed(1)+" km · "+min+" min travel":"free day"}</small></h3>
+      <ol class="tl">${items||`<li class="leg">Free day: sleep in, café-hop, or drag a place here.</li>`}</ol></section>`}).join("");
+}
+function vItin(){
+  const d=cur();if(!d)return empty("No itinerary yet","Pick a destination first and I’ll build a day-wise plan.");
+  return `<h1>${d.ic} ${d.name}: ${S.days}-day itinerary</h1>
+  <div class="card pace"><label for="pace"><b>Pace:</b> <output id="pl">${PACE[S.pace-1]}</output></label>
+    <input id="pace" type="range" min="1" max="3" value="${S.pace}">
+    <p class="mut" style="margin:6px 0 0">Places are grouped by distance to keep travel time low. Drag stops (or use ▲ ▼) to reorder, even between days.</p></div>
+  <div id="days">${daysHTML(d)}</div>
+  <p><button class="btn ghost" data-reset>↺ Re-optimise route</button></p>`;
+}
+
+/* ============ ROUTER (plain #hash) ============ */
+const views={home:vHome,compare:vCompare,itinerary:vItin};
+function draw(keep){
+  const k=views[(location.hash||"#home").slice(1)]?(location.hash||"#home").slice(1):"home";
+  app.innerHTML=views[k]();
+  document.querySelectorAll("#nav a").forEach(a=>a.classList.toggle("on",a.hash==="#"+k));
+  if(!keep)scrollTo(0,0);
+}
+addEventListener("hashchange",()=>draw());
+
+/* ============ EVENTS (delegated) ============ */
+app.addEventListener("submit",e=>{
+  e.preventDefault();const f=new FormData(e.target);
+  S.budget=Math.max(3000,+f.get("budget")||15000);S.days=Math.min(14,Math.max(2,+f.get("days")||4));
+  S.from=f.get("from");S.mood=f.get("mood");S.searched=1;S.dest=null;S.plan=null;save();
+  $("#res").innerHTML=resHTML();$("#res").scrollIntoView({behavior:"smooth"});
+});
+app.addEventListener("click",e=>{
+  const t=e.target;if(t.closest("a"))return; let b;
+  if(b=t.closest("[data-pick]")){S.dest=b.dataset.pick;S.tr=S.ho=S.plan=null;save();location.hash="#compare"}
+  else if(b=t.closest("[data-go]"))location.hash="#"+b.dataset.go;
+  else if(b=t.closest("[data-tr]")){S.tr=b.dataset.tr;save();draw(1)}
+  else if(b=t.closest("[data-ho]")){S.ho=+b.dataset.ho;save();draw(1)}
+  else if(t.closest("[data-reset]")){S.plan=null;draw(1)}
+  else if(b=t.closest("[data-mv]")){ // ▲▼ buttons: move within a day, or across to the neighbouring day
+    const li=t.closest(".stop"),di=+li.dataset.d,k=+li.dataset.k,dy=+b.dataset.mv,ds=S.plan.days;
+    if(dy<0){if(k>0)[ds[di][k-1],ds[di][k]]=[ds[di][k],ds[di][k-1]];else if(di>0)ds[di-1].push(ds[di].shift())}
+    else{if(k<ds[di].length-1)[ds[di][k+1],ds[di][k]]=[ds[di][k],ds[di][k+1]];else if(di<ds.length-1)ds[di+1].unshift(ds[di].pop())}
+    save();$("#days").innerHTML=daysHTML(cur());
+  }
+});
+app.addEventListener("keydown",e=>{if((e.key==="Enter"||e.key===" ")&&e.target.classList.contains("opt")){e.preventDefault();e.target.click()}});
+app.addEventListener("input",e=>{ // pace slider
+  if(e.target.id!=="pace")return;
+  S.pace=+e.target.value;$("#pl").textContent=PACE[S.pace-1];$("#days").innerHTML=daysHTML(cur());
+});
+// Drag and drop (desktop); ▲▼ buttons cover touch screens
+let dr=null;
+app.addEventListener("dragstart",e=>{const li=e.target.closest(".stop");if(li){dr={d:+li.dataset.d,k:+li.dataset.k};li.classList.add("drag")}});
+app.addEventListener("dragend",e=>{e.target.classList&&e.target.classList.remove("drag")});
+app.addEventListener("dragover",e=>{if(dr&&e.target.closest("[data-day]"))e.preventDefault()});
+app.addEventListener("drop",e=>{
+  const day=e.target.closest("[data-day]");if(!dr||!day)return;e.preventDefault();
+  const to=+day.dataset.day,li=e.target.closest(".stop"),ds=S.plan.days,[it]=ds[dr.d].splice(dr.k,1);
+  let at=li?+li.dataset.k:ds[to].length;
+  if(li&&to===dr.d&&dr.k<at)at--; // list shifted after removal
+  ds[to].splice(at,0,it);dr=null;save();$("#days").innerHTML=daysHTML(cur());
+});
+
+/* ============ THEME TOGGLE ============ */
+const root=document.documentElement;
+try{const t=localStorage.getItem("tn.theme");if(t)root.dataset.theme=t}catch(e){}
+$("#theme").onclick=()=>{
+  const dark=root.dataset.theme?root.dataset.theme==="dark":matchMedia("(prefers-color-scheme:dark)").matches;
+  root.dataset.theme=dark?"light":"dark";try{localStorage.setItem("tn.theme",root.dataset.theme)}catch(e){}
+};
+draw();
